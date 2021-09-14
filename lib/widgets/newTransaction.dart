@@ -59,6 +59,7 @@ class _NewTransactionState extends State<NewTransaction> {
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Container(
+            //width: MediaQuery.of(context).size.width,
             //height: ,
             padding: EdgeInsets.only(
               left: 10,
@@ -73,7 +74,7 @@ class _NewTransactionState extends State<NewTransaction> {
             //color: Color(0xFF00b894),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
                   autofocus: false,
@@ -92,7 +93,6 @@ class _NewTransactionState extends State<NewTransaction> {
                   onSubmitted: (_) => _submitData(),
                 ),
                 TextField(
-
                   decoration: InputDecoration(
                     labelText: 'Amount',
                     labelStyle: TextStyle(color: Colors.white),
@@ -111,10 +111,10 @@ class _NewTransactionState extends State<NewTransaction> {
                   onSubmitted: (_) => _submitData(),
                 ),
                 Container(
-                  margin: EdgeInsets.all(10),
+                  //width: MediaQuery.of(context).size.width*1.5,
+                  //margin: EdgeInsets.all(10),
                   child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       DropdownButton<String>(
                         value: dropdownValue,

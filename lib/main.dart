@@ -211,9 +211,7 @@ class _MyAppState extends State<MyHomePage> {
                 ),
               ),
               Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
+                height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) *
                     0.70,
                 child: TransactionList(_userTransactions, _deleteTransaction),
               ),
