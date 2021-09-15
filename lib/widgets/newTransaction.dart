@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -137,29 +140,37 @@ class _NewTransactionState extends State<NewTransaction> {
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            OutlinedButton(
-                              child: Text(
-                                _selectedDate == null
-                                    ? 'No Date Chosen'
-                                    : DateFormat.yMMMd().format(_selectedDate),
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              style: ButtonStyle(
-                                backgroundColor: _selectedDate == null
-                                    ? MaterialStateProperty.all<Color>(
-                                        Color(0xFFe74c3c))
-                                    : MaterialStateProperty.all<Color>(
-                                        Color(0xff10ac84)),
-                              ),
-                              onPressed: _presentDatePicker,
-                            ),
-                            // FloatingActionButton(
-                            //   mini: true,
-                            //   shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(10)),
-                            //   child: Icon(Icons.calendar_today),
-                            //   onPressed: _presentDatePicker,
-                            // )
+                            Platform.isAndroid
+                                ? OutlinedButton(
+                                    child: Text(
+                                      _selectedDate == null
+                                          ? 'No Date Chosen'
+                                          : DateFormat.yMMMd()
+                                              .format(_selectedDate),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    style: ButtonStyle(
+                                      backgroundColor: _selectedDate == null
+                                          ? MaterialStateProperty.all<Color>(
+                                              Color(0xFFe74c3c))
+                                          : MaterialStateProperty.all<Color>(
+                                              Color(0xff10ac84)),
+                                    ),
+                                    onPressed: _presentDatePicker,
+                                  )
+                                : CupertinoButton(
+                                    child: Text(
+                                      _selectedDate == null
+                                          ? 'No Date Chosen'
+                                          : DateFormat.yMMMd()
+                                              .format(_selectedDate),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    color: _selectedDate == null
+                                        ? Color(0xFFe74c3c)
+                                        : Color(0xff10ac84),
+                                    onPressed: _presentDatePicker,
+                                  ),
                           ]),
                       Container(
                         margin: EdgeInsets.all(10),

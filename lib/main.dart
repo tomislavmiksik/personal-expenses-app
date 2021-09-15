@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import './widgets/chart.dart';
@@ -5,6 +8,7 @@ import './widgets/newTransaction.dart';
 import './widgets/transactionList.dart';
 import './models/transaction.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +27,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return Platform.isAndroid ? MaterialApp(
       title: 'Expense manager',
       home: MyHomePage(),
       theme: ThemeData(
@@ -38,6 +42,13 @@ class MyApp extends StatelessWidget {
                 ),
               ),
         ),
+      ),
+    ) : CupertinoApp(
+      title: 'Expense manager',
+      home: MyHomePage(),
+      theme: CupertinoThemeData(
+        primaryColor: Colors.teal,
+        primaryContrastingColor: Color(0xFF00b894),
       ),
     );
   }
@@ -146,84 +157,130 @@ class _MyAppState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //String amountInput;
-    final appBar = AppBar(
-      //systemOverlayStyle: SystemUiOverlayStyle(systemNavigationBarColor: Color(0xFF00b894)),
-      backgroundColor: Color(0xFF00b894),
-      title: Text('Expense manager'),
-      centerTitle: true,
-      actions: [
-        IconButton(
-            onPressed: () => _startNewTx(context),
-            icon: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 30,
-            )),
-      ],
-    );
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Color(0xFF2d3436),
-        appBar: appBar,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _chartToggle
-                  ? Container(
-                      width: double.infinity,
-                      child: Card(
-                        color: Color(0xFF2d3436),
-                        child: Container(
-                          child: Container(
-                            height: MediaQuery.of(context).orientation == Orientation.landscape ? (MediaQuery.of(context).size.height -
-                                    appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.60
-                                : (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.22,
-                            child: Chart(_recentTx),
-                          ),
-                          alignment: Alignment.center,
-                        ),
-                        elevation: 0,
-                      ),
-                    )
-                  : Container(),
-              if(MediaQuery.of(context).orientation == Orientation.landscape) Container(
-                height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.05,
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Text(
-                      "Chart",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Switch(
-                      value: _chartToggle,
-                      onChanged: (val) {
-                        setState(() {
-                          _chartToggle = val;
-                        });
-                      },
-                      activeColor: Color(0xFF00b894),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) *
-                    0.70,
-                child: TransactionList(_userTransactions, _deleteTransaction),
-              ),
+    final PreferredSizeWidget appBar = Platform.isAndroid
+        ? AppBar(
+            //systemOverlayStyle: SystemUiOverlayStyle(systemNavigationBarColor: Color(0xFF00b894)),
+            backgroundColor: Color(0xFF00b894),
+            title: Text('Expense manager'),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                  onPressed: () => _startNewTx(context),
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 30,
+                  )),
             ],
+          )
+        : CupertinoNavigationBar(
+            backgroundColor: Color(0xFF00b894),
+            middle: Text(
+              'Expense manager',
+              style: TextStyle(color: Colors.white),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(
+                    CupertinoIcons.add,
+                    color: Colors.white,
+                  ),
+                  onTap: () => _startNewTx(context),
+                ),
+              ],
+            ),
+          );
+
+    final pageBody = SafeArea(
+        child: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          _chartToggle
+              ? Container(
+                  width: double.infinity,
+                  child: Card(
+                    color: Color(0xFF2d3436),
+                    child: Container(
+                      child: Container(
+                        height: MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height -
+                                    MediaQuery.of(context).padding.top) *
+                                0.60
+                            : (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height -
+                                    MediaQuery.of(context).padding.top) *
+                                0.22,
+                        child: Chart(_recentTx),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    elevation: 0,
+                  ),
+                )
+              : Container(),
+          if (MediaQuery.of(context).orientation == Orientation.landscape)
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.05,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    "Chart",
+                    style: TextStyle(color: Colors.white,fontSize: 15),
+                  ),
+                  Platform.isAndroid ? Switch(
+                    value: _chartToggle,
+                    onChanged: (val) {
+                      setState(() {
+                        _chartToggle = val;
+                      });
+                    },
+                    activeColor: Color(0xFF00b894),
+                  ) : CupertinoSwitch(value: _chartToggle, onChanged: (val) {
+                    setState(() {
+                      _chartToggle = val;
+                    });
+                  },),
+                ],
+              ),
+            ),
+          Container(
+            height: (MediaQuery.of(context).size.height -
+                    appBar.preferredSize.height -
+                    MediaQuery.of(context).padding.top) *
+                0.70,
+            child: TransactionList(_userTransactions, _deleteTransaction),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF00b894),
-          child: Icon(Icons.add_to_photos),
-          onPressed: () => _startNewTx(context),
-        ),
+        ],
       ),
+    ));
+
+    return MaterialApp(
+      home: Platform.isAndroid
+          ? Scaffold(
+              backgroundColor: Color(0xFF2d3436),
+              appBar: appBar,
+              body: pageBody,
+              floatingActionButton: FloatingActionButton(
+                backgroundColor: Color(0xFF00b894),
+                child: Icon(Icons.add_to_photos),
+                onPressed: () => _startNewTx(context),
+              ),
+            )
+          : CupertinoPageScaffold(
+              backgroundColor: Color(0xFF2d3436),
+              child: pageBody,
+              navigationBar: appBar,
+            ),
     );
   }
 }
