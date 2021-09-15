@@ -5,6 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'adaptiveButton.dart';
+
 class NewTransaction extends StatefulWidget {
   final Function _addNewTx;
 
@@ -140,37 +142,7 @@ class _NewTransactionState extends State<NewTransaction> {
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Platform.isAndroid
-                                ? OutlinedButton(
-                                    child: Text(
-                                      _selectedDate == null
-                                          ? 'No Date Chosen'
-                                          : DateFormat.yMMMd()
-                                              .format(_selectedDate),
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    style: ButtonStyle(
-                                      backgroundColor: _selectedDate == null
-                                          ? MaterialStateProperty.all<Color>(
-                                              Color(0xFFe74c3c))
-                                          : MaterialStateProperty.all<Color>(
-                                              Color(0xff10ac84)),
-                                    ),
-                                    onPressed: _presentDatePicker,
-                                  )
-                                : CupertinoButton(
-                                    child: Text(
-                                      _selectedDate == null
-                                          ? 'No Date Chosen'
-                                          : DateFormat.yMMMd()
-                                              .format(_selectedDate),
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    color: _selectedDate == null
-                                        ? Color(0xFFe74c3c)
-                                        : Color(0xff10ac84),
-                                    onPressed: _presentDatePicker,
-                                  ),
+                            AdaptiveFlatButton("No Date Chosen", _presentDatePicker, _selectedDate),
                           ]),
                       Container(
                         margin: EdgeInsets.all(10),
