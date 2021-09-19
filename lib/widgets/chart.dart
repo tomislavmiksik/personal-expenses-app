@@ -17,7 +17,8 @@ class Chart extends StatelessWidget {
       for (int i = 0; i < transactions.length; i++) {
         if (transactions[i].date.day == weekDay.day &&
             transactions[i].date.month == weekDay.month &&
-            transactions[i].date.year == weekDay.year && transactions[i].transactionType == false) {
+            transactions[i].date.year == weekDay.year &&
+            transactions[i].transactionType == false) {
           sum += transactions[i].amount;
         }
       }
@@ -34,9 +35,6 @@ class Chart extends StatelessWidget {
       return sum + item['amount'];
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +54,10 @@ class Chart extends StatelessWidget {
                 child: ChartBar(
                     e['day'],
                     e['amount'],
-                    maxSpending == 0.0 ? 0.0 : (e['amount'] as double) / maxSpending, "expense"),
+                    maxSpending == 0.0
+                        ? 0.0
+                        : (e['amount'] as double) / maxSpending,
+                    "expense"),
               );
             }).toList(),
           ),

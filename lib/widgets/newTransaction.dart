@@ -58,10 +58,14 @@ class _NewTransactionState extends State<NewTransaction> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Card(
+          color: Color(0xFF2C394B),
           margin: EdgeInsets.all(0),
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12.0),
+              topRight: Radius.circular(12.0),
+            ),
           ),
           child: Container(
             //width: MediaQuery.of(context).size.width,
@@ -142,7 +146,8 @@ class _NewTransactionState extends State<NewTransaction> {
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            AdaptiveFlatButton("No Date Chosen", _presentDatePicker, _selectedDate),
+                            AdaptiveFlatButton("No Date Chosen",
+                                _presentDatePicker, _selectedDate),
                           ]),
                       Container(
                         margin: EdgeInsets.all(10),
@@ -151,8 +156,8 @@ class _NewTransactionState extends State<NewTransaction> {
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                //primary: Color(0xff10ac84),
-                              ),
+                                  //primary: Color(0xff10ac84),
+                                  ),
                               child: Text('Add transaction',
                                   style: TextStyle(color: Colors.white)),
                               onPressed: _submitData,

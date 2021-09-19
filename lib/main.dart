@@ -14,11 +14,11 @@ void main() {
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,
   // ]);
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //   //systemNavigationBarColor: Color(0xFF596275),
-  //   systemStatusBarContrastEnforced: true,
-  //   //statusBarColor: Color(0xFF0652DD),
-  // ));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Color(0xFF082032),
+    systemStatusBarContrastEnforced: true,
+    //statusBarColor: Color(0xFF0652DD),
+  ));
   runApp(MyApp());
 }
 
@@ -30,10 +30,37 @@ class MyApp extends StatelessWidget {
             title: 'Expense manager',
             home: MyHomePage(),
             theme: ThemeData(
-              brightness: Brightness.dark,
-              primaryColor: Colors.red,
+              canvasColor: Color(0xFF082032),
+              primarySwatch: Colors.deepOrange,
+              appBarTheme: AppBarTheme(
+                titleTextStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+              cardTheme: CardTheme(
+                color: Color(0xFF2C394B),
+                shadowColor: Colors.transparent,
+              ),
+              textTheme: TextTheme(
+                headline1: TextStyle(
+                  color: Colors.white,
+                ),
+                bodyText1: TextStyle(
+                  color: Colors.white,
+                ),
+                subtitle1: TextStyle(
+                  color: Colors.white,
+                ),
+                subtitle2: TextStyle(
+                  color: Color(0x7BCECECE),
+                ),
+                caption: TextStyle(
+                  color: Color(0x7BCECECE),
+                ),
+              ),
               fontFamily: 'OpenSans',
-              backgroundColor: Color(0xFF2c2c54),
+              //backgroundColor: Color(0xFF00000),
             ),
           )
         : CupertinoApp(
@@ -203,14 +230,22 @@ class _MyAppState extends State<MyHomePage> {
                     //color: ,
                     child: Container(
                       child: Container(
-                        height: MediaQuery.of(context).orientation == Orientation.landscape
-                            ? (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.60
-                            : (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.22,
+                        height: MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height -
+                                    MediaQuery.of(context).padding.top) *
+                                0.60
+                            : (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height -
+                                    MediaQuery.of(context).padding.top) *
+                                0.22,
                         child: ListView(
                           children: [
                             Container(
                                 width: MediaQuery.of(context).size.width * 0.9,
-                                height: MediaQuery.of(context).size.height * 0.9,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.9,
                                 child: Chart(_recentTx)),
                             //Container(width: 100,),
                             Container(
@@ -229,7 +264,10 @@ class _MyAppState extends State<MyHomePage> {
               : Container(),
           if (MediaQuery.of(context).orientation == Orientation.landscape)
             Container(
-              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.05,
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.05,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -291,7 +329,7 @@ class _MyAppState extends State<MyHomePage> {
             color: Colors.white,
           ),
           subtitle1: TextStyle(
-            color: Color(0xE8CECECE),
+            color: Colors.white,
           ),
           subtitle2: TextStyle(
             color: Color(0x7BCECECE),
@@ -301,7 +339,7 @@ class _MyAppState extends State<MyHomePage> {
           ),
         ),
         fontFamily: 'OpenSans',
-        backgroundColor: Color(0xFF2c2c54),
+        backgroundColor: Color(0xFF00000),
       ),
       //darkTheme: ThemeData(),
       home: Platform.isAndroid

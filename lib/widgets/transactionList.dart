@@ -55,7 +55,7 @@ class TransactionList extends StatelessWidget {
                     Card(
                       shadowColor: Colors.transparent,
                       elevation: 5,
-                      //: Colors.white,
+                      color: Colors.transparent,
                       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -109,11 +109,14 @@ class TransactionList extends StatelessWidget {
                             padding: const EdgeInsets.all(15),
                             child: FittedBox(
                               child: Text(
-                                _userTransactions[lng - index - 1].transactionType
+                                _userTransactions[lng - index - 1]
+                                        .transactionType
                                     ? '€${_userTransactions[lng - index - 1].amount.toStringAsFixed(2)}'
                                     : '-€${_userTransactions[lng - index - 1].amount.toStringAsFixed(2)}',
                                 style: TextStyle(
-                                  color: getColor(_userTransactions[lng - index - 1].transactionType),
+                                  color: getColor(
+                                      _userTransactions[lng - index - 1]
+                                          .transactionType),
                                   //color: Colors.white,
                                 ),
                               ),
@@ -123,17 +126,22 @@ class TransactionList extends StatelessWidget {
                         title: Text(
                           _userTransactions[lng - index - 1].title,
                           style: TextStyle(
-                            //color: Colors.white,
-                          ),
+                              //color: Colors.white,
+                              ),
                         ),
                         subtitle: Text(
                           DateFormat.yMMMd()
                               .format(_userTransactions[lng - index - 1].date),
                           style: TextStyle(
-                            color: Colors.white,
-                          ),
+                              //color: Colors.white,
+                              ),
                         ),
                       ),
+                    ),
+                    Divider(
+                      color: getColor(
+                          _userTransactions[lng - index - 1].transactionType),
+                      thickness: 2,
                     ),
                   ],
                 );
