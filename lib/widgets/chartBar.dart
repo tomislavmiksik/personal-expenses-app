@@ -4,8 +4,9 @@ class ChartBar extends StatelessWidget {
   final String label;
   final double moneySpent;
   final double spendingPctOfTotal;
+  final String txType;
 
-  ChartBar(this.label, this.moneySpent, this.spendingPctOfTotal);
+  ChartBar(this.label, this.moneySpent, this.spendingPctOfTotal, this.txType);
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +44,8 @@ class ChartBar extends StatelessWidget {
                       alignment: FractionalOffset.bottomCenter,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Color(0xFFe74c3c),
+                          color: txType == "expense" ? Color(0xFFFF4C29) : Color(0xFF57CC99),
                           borderRadius: BorderRadius.circular(20),
-                          //borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-                          //border: Border.all(color: Colors.black38, width: 1),
                         ),
                       ),
                     ),

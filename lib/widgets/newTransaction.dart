@@ -74,7 +74,7 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: Color(0xFF2d3436),
+              //color: Color(0xFF2d3436),
             ),
             //color: Color(0xFF00b894),
             child: Column(
@@ -151,7 +151,7 @@ class _NewTransactionState extends State<NewTransaction> {
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xff10ac84),
+                                //primary: Color(0xff10ac84),
                               ),
                               child: Text('Add transaction',
                                   style: TextStyle(color: Colors.white)),

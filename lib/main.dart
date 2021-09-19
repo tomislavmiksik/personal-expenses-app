@@ -1,14 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import './widgets/chart.dart';
+import './widgets/incomeChart.dart';
 import './widgets/newTransaction.dart';
 import './widgets/transactionList.dart';
 import './models/transaction.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -16,41 +14,36 @@ void main() {
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,
   // ]);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Color(0xFF2d3436),
-    systemStatusBarContrastEnforced: true,
-    statusBarColor: Color(0xFF00b894),
-  ));
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   //systemNavigationBarColor: Color(0xFF596275),
+  //   systemStatusBarContrastEnforced: true,
+  //   //statusBarColor: Color(0xFF0652DD),
+  // ));
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Platform.isAndroid ? MaterialApp(
-      title: 'Expense manager',
-      home: MyHomePage(),
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-        accentColor: Color(0xFF00b894),
-        fontFamily: 'OpenSans',
-        appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(
-                subtitle1: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 20,
+    return Platform.isAndroid
+        ? MaterialApp(
+            title: 'Expense manager',
+            home: MyHomePage(),
+            theme: ThemeData(
+              brightness: Brightness.dark,
+              primaryColor: Colors.red,
+              fontFamily: 'OpenSans',
+              backgroundColor: Color(0xFF2c2c54),
+            ),
+          )
+        : CupertinoApp(
+            title: 'Expense manager',
+            home: MyHomePage(),
+            theme: CupertinoThemeData(
+                //primaryColor: Colors.teal,
+                //primaryContrastingColor: Color(0xFF0652DD),
                 ),
-              ),
-        ),
-      ),
-    ) : CupertinoApp(
-      title: 'Expense manager',
-      home: MyHomePage(),
-      theme: CupertinoThemeData(
-        primaryColor: Colors.teal,
-        primaryContrastingColor: Color(0xFF00b894),
-      ),
-    );
+          );
   }
 }
 
@@ -128,6 +121,9 @@ class _MyAppState extends State<MyHomePage> {
     });
   }
 
+  int _widgetIndex = 0;
+  bool _widgetToggle = true;
+
   void _deleteTransaction(int index) {
     setState(() {
       _userTransactions.removeAt(index);
@@ -143,7 +139,7 @@ class _MyAppState extends State<MyHomePage> {
           topRight: Radius.circular(12),
         ),
       ),
-      backgroundColor: Color(0xFF2d3436),
+      backgroundColor: Color(0xFF84817a),
       context: ctx,
       builder: (_) {
         return GestureDetector(
@@ -157,10 +153,9 @@ class _MyAppState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //final themeProvider = Provider.of<ThemeProvider>(context);
     final PreferredSizeWidget appBar = Platform.isAndroid
         ? AppBar(
-            //systemOverlayStyle: SystemUiOverlayStyle(systemNavigationBarColor: Color(0xFF00b894)),
-            backgroundColor: Color(0xFF00b894),
             title: Text('Expense manager'),
             centerTitle: true,
             actions: [
@@ -174,7 +169,7 @@ class _MyAppState extends State<MyHomePage> {
             ],
           )
         : CupertinoNavigationBar(
-            backgroundColor: Color(0xFF00b894),
+            //backgroundColor: Color(0xFF0652DD),
             middle: Text(
               'Expense manager',
               style: TextStyle(color: Colors.white),
@@ -185,7 +180,7 @@ class _MyAppState extends State<MyHomePage> {
                 GestureDetector(
                   child: Icon(
                     CupertinoIcons.add,
-                    color: Colors.white,
+                    //color: Colors.grey,
                   ),
                   onTap: () => _startNewTx(context),
                 ),
@@ -201,22 +196,30 @@ class _MyAppState extends State<MyHomePage> {
         children: <Widget>[
           _chartToggle
               ? Container(
+                  margin: EdgeInsets.only(left: 20, right: 20),
+                  alignment: Alignment.centerRight,
                   width: double.infinity,
                   child: Card(
-                    color: Color(0xFF2d3436),
+                    //color: ,
                     child: Container(
                       child: Container(
-                        height: MediaQuery.of(context).orientation ==
-                                Orientation.landscape
-                            ? (MediaQuery.of(context).size.height -
-                                    appBar.preferredSize.height -
-                                    MediaQuery.of(context).padding.top) *
-                                0.60
-                            : (MediaQuery.of(context).size.height -
-                                    appBar.preferredSize.height -
-                                    MediaQuery.of(context).padding.top) *
-                                0.22,
-                        child: Chart(_recentTx),
+                        height: MediaQuery.of(context).orientation == Orientation.landscape
+                            ? (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.60
+                            : (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.22,
+                        child: ListView(
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                height: MediaQuery.of(context).size.height * 0.9,
+                                child: Chart(_recentTx)),
+                            //Container(width: 100,),
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                child: IncomeChart(_recentTx)),
+                          ],
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                        ),
                       ),
                       alignment: Alignment.center,
                     ),
@@ -226,30 +229,32 @@ class _MyAppState extends State<MyHomePage> {
               : Container(),
           if (MediaQuery.of(context).orientation == Orientation.landscape)
             Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.05,
+              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.05,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
                     "Chart",
-                    style: TextStyle(color: Colors.white,fontSize: 15),
+                    style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
-                  Platform.isAndroid ? Switch(
-                    value: _chartToggle,
-                    onChanged: (val) {
-                      setState(() {
-                        _chartToggle = val;
-                      });
-                    },
-                    activeColor: Color(0xFF00b894),
-                  ) : CupertinoSwitch(value: _chartToggle, onChanged: (val) {
-                    setState(() {
-                      _chartToggle = val;
-                    });
-                  },),
+                  Platform.isAndroid
+                      ? Switch(
+                          value: _chartToggle,
+                          onChanged: (val) {
+                            setState(() {
+                              _chartToggle = val;
+                            });
+                          },
+                          //activeColor: Color(0xFF0652DD),
+                        )
+                      : CupertinoSwitch(
+                          value: _chartToggle,
+                          onChanged: (val) {
+                            setState(() {
+                              _chartToggle = val;
+                            });
+                          },
+                        ),
                 ],
               ),
             ),
@@ -265,19 +270,53 @@ class _MyAppState extends State<MyHomePage> {
     ));
 
     return MaterialApp(
+      theme: ThemeData(
+        canvasColor: Color(0xFF082032),
+        primarySwatch: Colors.deepOrange,
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
+        ),
+        cardTheme: CardTheme(
+          color: Color(0xFF2C394B),
+          shadowColor: Colors.transparent,
+        ),
+        textTheme: TextTheme(
+          headline1: TextStyle(
+            color: Colors.white,
+          ),
+          bodyText1: TextStyle(
+            color: Colors.white,
+          ),
+          subtitle1: TextStyle(
+            color: Color(0xE8CECECE),
+          ),
+          subtitle2: TextStyle(
+            color: Color(0x7BCECECE),
+          ),
+          caption: TextStyle(
+            color: Color(0x7BCECECE),
+          ),
+        ),
+        fontFamily: 'OpenSans',
+        backgroundColor: Color(0xFF2c2c54),
+      ),
+      //darkTheme: ThemeData(),
       home: Platform.isAndroid
           ? Scaffold(
-              backgroundColor: Color(0xFF2d3436),
+              //backgroundColor: Color(0xFF596275),
               appBar: appBar,
               body: pageBody,
               floatingActionButton: FloatingActionButton(
-                backgroundColor: Color(0xFF00b894),
+                //backgroundColor: Color(0xFF0652DD),
                 child: Icon(Icons.add_to_photos),
                 onPressed: () => _startNewTx(context),
               ),
             )
           : CupertinoPageScaffold(
-              backgroundColor: Color(0xFF2d3436),
+              //backgroundColor: Color(0xFF596275),
               child: pageBody,
               navigationBar: appBar,
             ),
