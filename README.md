@@ -8,8 +8,6 @@ This project is meant to show core Flutter functions and widgets on a small scal
 ## Main Screen
 <img src="assets/images/Screenshot_1632232772.png" width="720" height="1520" border="10"/>
 
-
-
 ## List of transactions and delete function
 
 ![alt text](assets/videos/ezgif-3-9f46b6d462c9.gif "List")
