@@ -10,8 +10,11 @@ This project is meant to show core Flutter functions and widgets on a small scal
 
 
 ##List of transactions and delete function
+
 ![alt text](assets/videos/ezgif-3-9f46b6d462c9.gif "List")
 
 
 ##Adding a new transaction
+Adding a new transaction is done using SingleChildScrollView Widget after pressing the button in the bottom right
+
 ![alt text](assets/videos/ezgif-3-e192b8503525.gif "New transaction")
