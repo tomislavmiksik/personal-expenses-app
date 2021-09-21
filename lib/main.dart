@@ -178,42 +178,46 @@ class _MyAppState extends State<MyHomePage> {
     );
   }
 
+  Widget _buildAppBar(){
+    return Platform.isAndroid
+        ? AppBar(
+      title: Text('Expense manager'),
+      centerTitle: true,
+      actions: [
+        IconButton(
+            onPressed: () => _startNewTx(context),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 30,
+            )),
+      ],
+    )
+        : CupertinoNavigationBar(
+      //backgroundColor: Color(0xFF0652DD),
+      middle: Text(
+        'Expense manager',
+        style: TextStyle(color: Colors.white),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          GestureDetector(
+            child: Icon(
+              CupertinoIcons.add,
+              //color: Colors.grey,
+            ),
+            onTap: () => _startNewTx(context),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //final themeProvider = Provider.of<ThemeProvider>(context);
-    final PreferredSizeWidget appBar = Platform.isAndroid
-        ? AppBar(
-            title: Text('Expense manager'),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                  onPressed: () => _startNewTx(context),
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 30,
-                  )),
-            ],
-          )
-        : CupertinoNavigationBar(
-            //backgroundColor: Color(0xFF0652DD),
-            middle: Text(
-              'Expense manager',
-              style: TextStyle(color: Colors.white),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                GestureDetector(
-                  child: Icon(
-                    CupertinoIcons.add,
-                    //color: Colors.grey,
-                  ),
-                  onTap: () => _startNewTx(context),
-                ),
-              ],
-            ),
-          );
+    final PreferredSizeWidget appBar = _buildAppBar();
 
     final pageBody = SafeArea(
         child: SingleChildScrollView(
@@ -230,16 +234,9 @@ class _MyAppState extends State<MyHomePage> {
                     //color: ,
                     child: Container(
                       child: Container(
-                        height: MediaQuery.of(context).orientation ==
-                                Orientation.landscape
-                            ? (MediaQuery.of(context).size.height -
-                                    appBar.preferredSize.height -
-                                    MediaQuery.of(context).padding.top) *
-                                0.60
-                            : (MediaQuery.of(context).size.height -
-                                    appBar.preferredSize.height -
-                                    MediaQuery.of(context).padding.top) *
-                                0.22,
+                        height: MediaQuery.of(context).orientation == Orientation.landscape
+                            ? (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.60
+                            : (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.22,
                         child: ListView(
                           children: [
                             Container(
