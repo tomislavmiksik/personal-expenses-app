@@ -6,7 +6,8 @@ A Flutter project from Maximilian Schwarzmüller's [course](https://www.udemy.co
 This project is meant to show core Flutter functions and widgets on a small scale **Expense Manager App**
 
 ## Main Screen
-![alt text](assets/images/Screenshot_1632232772.png "Main screen")
+<img src="assets/images/Screenshot_1632232772.png" width="100" height="100" border="10"/>
+
 
 
 ## List of transactions and delete function
