@@ -5,3 +5,13 @@ A Flutter project from Maximilian Schwarzmüller's [course](https://www.udemy.co
 
 This project is meant to show core Flutter functions and widgets on a small scale **Expense Manager App**
 
+##Main Screen
+![alt text](assets/images/Screenshot_1632232772.png "Main screen")
+
+
+##List of transactions and delete function
+![alt text](assets/videos/ezgif-3-9f46b6d462c9.gif "List")
+
+
+##Adding a new transaction
+![alt text](assets/videos/ezgif-3-e192b8503525.gif "New transaction")
